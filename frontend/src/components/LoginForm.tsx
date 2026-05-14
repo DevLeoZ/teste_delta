@@ -23,12 +23,17 @@ export default function LoginForm() {
             return
         }
 
-        const user = await res.json()
+        const data = await res.json()
 
-        //“sessão simples”
-        localStorage.setItem("user", JSON.stringify(user))
+        // Armazena token de autenticação e userId para uso nas requisições
+        localStorage.setItem(
+            "user",
+            JSON.stringify({
+                id: Number(data.token),
+                token: data.token
+            })
+        )
 
-        //redireciona para tasks
         window.location.href = "/tasks"
     }
 

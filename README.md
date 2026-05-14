@@ -1,6 +1,14 @@
+Usuarios:
+
+Login: leo@email.com
+Senha: 123456
+
+Login: bea@gmail.com
+Senha: 123456
+
 # Delta - Full Stack Todo App
 
-Uma aplicação full stack simples para gerenciamento de tarefas (todos) com autenticação de usuários. Desenvolvida como teste técnico utilizando Kotlin + Spring Boot no backend e Astro + React no frontend.
+"Uma aplicação full stack simples para gerenciamento de tarefas (todos) com autenticação de usuários. Desenvolvida como teste técnico utilizando Kotlin + Spring Boot no backend e Astro + React no frontend."
 
 ## Tecnologias Utilizadas
 
@@ -97,21 +105,17 @@ Execute os testes unitários:
 - Usa MockK para mocks.
 
 ### Frontend
-Não há testes automatizados no frontend (simples para o escopo do teste).
+Não há testes automatizados no frontend.
 
 ## Funcionalidades
 
 - **Cadastro e Login**: Usuários podem se registrar e fazer login.
 - **CRUD de Tarefas**: Criar, listar, editar (toggle completed) e deletar tarefas.
 - **Segurança**: Autenticação via header; tarefas privadas por usuário.
-- **Interface**: Simples e responsiva, com tema dark.
+- **Interface**: Simples e responsiva.
 
 ## Notas
 
 - Banco de dados: SQLite (`delta.db`), criado automaticamente.
-- Autenticação: Stateless via userId no header (simplificada para o teste).
+- Autenticação: Stateless via userId no header.
 - CORS: Configurado para desenvolvimento local.
-
-## Autor
-
-Desenvolvido como teste técnico.

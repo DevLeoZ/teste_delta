@@ -15,44 +15,51 @@ export default function TaskPage() {
     const [tasks, setTasks] = useState<Task[]>([])
     const [title, setTitle] = useState("")
     const [userId, setUserId] = useState<number | null>(null)
+    const [token, setToken] = useState<string | null>(null)
 
     // pega usuário logado
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user") || "{}")
+        const user = JSON.parse(localStorage.getItem("user") || "null")
 
-        if (!user?.id) {
+        if (!user?.id || !user?.token) {
             window.location.href = "/"
             return
         }
 
         setUserId(user.id)
+        setToken(user.token)
     }, [])
 
     // só carrega tasks quando userId existir
     useEffect(() => {
-        if (userId) {
+        if (userId && token) {
             loadTasks()
         }
-    }, [userId])
+    }, [userId, token])
 
     async function loadTasks() {
-        const res = await fetch(`http://localhost:8080/tasks/user/${userId}`)
+        const res = await fetch("http://localhost:8080/tasks", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
         const data = await res.json()
         setTasks(data)
     }
 
     async function createTask() {
-        if (!title || !userId) return
+        if (!title || !userId || !token) return
 
         await fetch("http://localhost:8080/tasks", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                 title,
-                completed: false,
-                userId
+                completed: false
             })
         })
 
@@ -61,17 +68,17 @@ export default function TaskPage() {
     }
 
     async function toggleTask(task: Task) {
-        if (!userId) return
+        if (!userId || !token) return
 
         await fetch(`http://localhost:8080/tasks/${task.id}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                 title: task.title,
-                completed: !task.completed,
-                userId
+                completed: !task.completed
             })
         })
 
@@ -79,8 +86,13 @@ export default function TaskPage() {
     }
 
     async function deleteTask(id: number) {
+        if (!token) return
+
         await fetch(`http://localhost:8080/tasks/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
 
         loadTasks()
