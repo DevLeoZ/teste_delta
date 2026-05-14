@@ -1,25 +1,25 @@
 ---
-import TaskPage from "../components/TaskPage.tsx"
 import "../styles/global.css"
 ---
 
 <html lang="pt-br">
 <head>
 	<meta charset="UTF-8" />
-	<title>Tasks</title>
+	<title>Delta</title>
 </head>
 
 <body>
 
 <script>
-	const user = localStorage.getItem("user")
+	const user = JSON.parse(localStorage.getItem("user") || "null")
 
-	if (!user) {
+	if (user?.id && user?.token) {
+		window.location.href = "/tasks"
+	} else {
 		window.location.href = "/register"
 	}
 </script>
 
-<TaskPage client:load />
 
 </body>
 </html>
